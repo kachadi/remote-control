@@ -2,7 +2,8 @@ import { drawCommandHandler } from '../commands/drawCommands';
 import { mouseCommandsHandler } from '../commands/mouseCommands';
 import { prntScrCommandHandler } from '../commands/prntScrCommand';
 
-const commandsController = async (input, command, type, args) => {
+const commandsController = async (input: string, command: string, type: string, args: number[]) => {
+  
   switch (command) {
     case 'mouse':
       const position = await mouseCommandsHandler(type, args[0]);

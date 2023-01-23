@@ -18,7 +18,7 @@ const startWebSocketServer = (port: number) => {
       console.log(`recieved: ${chunk}`);
 
       const [input, ...args] = chunk.toString().split(' ');
-      const argsToNumber = args.map((el) => +el);
+      const argsToNumber = args.map((el: string) => +el);
       const [command, type] = input.split('_');
       const result = await commandsController(
         input,

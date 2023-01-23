@@ -7,7 +7,8 @@ import {
   Button,
 } from '@nut-tree/nut-js';
 
-const drawCommandHandler = async (command, [width, length]) => {
+const drawCommandHandler = async (command: string, [width, length]: number[]) => {
+ 
   await mouse.pressButton(Button.LEFT);
 
   switch (command) {
