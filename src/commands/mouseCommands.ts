@@ -22,7 +22,6 @@ const mouseCommandsHandler = async (command: string, px: number) => {
       break;
 
     default:
-      
       break;
   }
 };

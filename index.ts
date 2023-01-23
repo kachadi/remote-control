@@ -14,5 +14,5 @@ httpServer.listen(HTTP_PORT);
 startWebSocketServer(WSS_PORT);
 
 process.on('SIGINT', () => {
-  process.exit();
+  process.exit(0);
 });

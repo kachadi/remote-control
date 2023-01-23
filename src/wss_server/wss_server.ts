@@ -1,4 +1,5 @@
 import { createWebSocketStream, WebSocketServer } from 'ws';
+import { INTERNAL_SERVER_ERROR } from '../constants/error_msgs';
 import { commandsController } from '../controller/controller';
 
 const startWebSocketServer = (port: number) => {
@@ -15,28 +16,32 @@ const startWebSocketServer = (port: number) => {
     });
 
     webSocketStream.on('data', async (chunk) => {
-      console.log(`recieved: ${chunk}`);
+      try {
+        console.log(`<- -  ${chunk} from frontend`);
 
-      const [input, ...args] = chunk.toString().split(' ');
-      const argsToNumber = args.map((el: string) => +el);
-      const [command, type] = input.split('_');
-      const result = await commandsController(
-        input,
-        command,
-        type,
-        argsToNumber
-      );
+        const [input, ...args] = chunk.toString().split(' ');
+        const argsToNumber = args.map((el: string) => +el);
+        const [command, type] = input.split('_');
+        const result = await commandsController(
+          input,
+          command,
+          type,
+          argsToNumber
+        );
 
-      webSocketStream.write(result);
+        webSocketStream.write(result);
 
-      console.log(`sended: ${result}`);
+        console.log(`-> - ${result} from server `);
+      } catch {
+        console.log(INTERNAL_SERVER_ERROR);
+      }
     });
 
-    ws.on('error', (err) => {
-      console.error(err.message);
+    webSocketStream.on('error', (err) => {
+      console.log(err.message);
     });
 
-    ws.on('close', () => {
+    webSocketStream.on('close', () => {
       console.log('Websocket closed!');
       wss.clients.forEach((el) => el.close());
       wss.close();

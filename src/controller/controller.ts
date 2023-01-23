@@ -7,7 +7,6 @@ const commandsController = async (input: string, command: string, type: string, 
   switch (command) {
     case 'mouse':
       const position = await mouseCommandsHandler(type, args[0]);
-
       if (position) {
         return `${input} ${position.x},${position.y}`;
       } else {
